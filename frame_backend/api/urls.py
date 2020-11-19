@@ -13,6 +13,8 @@ urlpatterns = [
     # logged out
     path('password_reset', views.password_reset),
     path('login', views.login),
+    path('create_account', views.create_account),
+
 
     # logged in
 

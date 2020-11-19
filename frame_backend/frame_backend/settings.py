@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     # django rest
     'rest_framework',
 
+    # models
+    #'api',
+
     # app
     'api.apps.ApiConfig',
 ]

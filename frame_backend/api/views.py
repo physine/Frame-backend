@@ -10,7 +10,11 @@ from rest_framework.response import Response
 
 @api_view(['GET'])
 def apiOverview(request):
-    json = {'password_reset':'/api/password_reset/', 'login':'/api/login/'}
+    json = {
+            'password_reset':'/api/password_reset/',
+            'login':'/api/login/',
+            'create_account':'/api/create_account/'
+            }
     return Response(json)
 
 # ===============================================
@@ -27,9 +31,16 @@ def login(request):
     json = {'login':'ENDPOINT WORKING'}
     return Response(json)
 
+@api_view(['POST'])
+def create_account(request):
+    json = {'create_account':'ENDPOINT WORKING'}
+    return Response(json)
+
 # ===============================================
 #                 Logged In - Auth Required
 #------------------------------------------------
+
+
 
 
 
