@@ -15,7 +15,6 @@ urlpatterns = [
     path('login', views.login),
     path('create_account', views.create_account),
 
-
     # logged in
 
 ]

@@ -15,11 +15,13 @@ from django.db import models
 #
 # id = models.AutoField(primary_key=True)
 
+#TODO: will need a reset password code table
+
 class Users(models.Model):
     #id is auto generated
     password_hash = models.CharField(max_length=60)
     auth_token = models.CharField(max_length=60)
-    email = models.CharField(max_length=60)
+    email = models.CharField(unique=True, max_length=60)
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
 
@@ -52,3 +54,8 @@ class Friends(models.Model):
     # found in the lookup_id field and for all the rows it exists in the results_id of thoses rows are returned; finding tall the friends of that user.
     lookup_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     results_id = models.IntegerField()
+
+class ResetPasswordCode(models.Model):
+    users_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    # there can be more than one reset password code at a gives time 
+    reset_code = models.IntegerField() 
