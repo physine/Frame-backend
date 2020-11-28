@@ -11,9 +11,11 @@ urlpatterns = [
     path('', views.apiOverview, name='api-overview'),
     
     # logged out
-    path('password_reset', views.password_reset),
-    path('login', views.login),
-    path('create_account', views.create_account),
+    path('password_reset', views.password_reset, name="password_reset"),
+    path('login', views.login, name="login"),
+    path('UserCreate', views.UserCreate, name="UserCreate"),
+
+    path('UserList', views.UserList, name="UserList"),
 
     # logged in
 

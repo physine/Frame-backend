@@ -2,7 +2,9 @@ from django.shortcuts import render
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json
+from .serializers import *
+from .models import *
+
 import json
 
 
@@ -15,7 +17,7 @@ def apiOverview(request):
     json = {
             'password_reset':'/api/password_reset/',
             'login':'/api/login/',
-            'create_account':'/api/create_account/'
+            'create_account':'/api/UserCreate/'
             }
     return Response(json)
 
@@ -25,47 +27,38 @@ def apiOverview(request):
 
 @api_view(['POST'])
 def password_reset(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-
-    email = body['email']
-
     # TODO: create a temp reset password code and email it to the user
     # TODO: if the code is used sucessfully remove it from the db, if the expires also remove it
     # TODO: from the db.  
-
-    return Response(email)
+    return Response()
 
 @api_view(['POST'])
 def login(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-
-    email = body['email']
-    password = body['password']
-
     # TODO: check if these exists a user with the given email, if so, check if the 
     # TODO: password matches, if it does return a new auth token to the client.
     # TODO: if any of these fail return 'failed to login' to the client.
-
-    return Response(json)
+    return Response()
 
 @api_view(['POST'])
-def create_account(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
+def UserCreate(request):
+    serializer = UsersSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response("ok-saved-user")
+    #return Response(serializer.errors)
+    return Response("errors")
 
-    email = body['email']
-    first_name = body['fname']
-    last_name = body['lname']
-    password = body['password']
 
+@api_view(['GET'])
+def UserList(request):
+    users = Users.objects.all()
+    serializer = UsersSerializer(users, many=True)
+    return Response(serializer.data) 
+    
+    
     # TODO: sanatise user input
     # TODO: check if the email is already in the db, if it is retuen 'account accociated with this email'
     # TODO: if not create a new account the the given details.
-
-    #print(content)
-    return Response(body['password'])
 
 # ===============================================
 #                 Logged In - Auth Required
