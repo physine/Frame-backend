@@ -48,6 +48,14 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASS': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,6 +83,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'api.Users'
 
 WSGI_APPLICATION = 'frame_backend.wsgi.application'
 

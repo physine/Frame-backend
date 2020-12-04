@@ -40,8 +40,8 @@ def login(request):
     return Response()
 
 @api_view(['POST'])
-def UserCreate(request):
-    serializer = UsersSerializer(data=request.data)
+def user_create(request):
+    serializer = RegistrationSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response("ok-saved-user")
@@ -52,7 +52,7 @@ def UserCreate(request):
 @api_view(['GET'])
 def UserList(request):
     users = Users.objects.all()
-    serializer = UsersSerializer(users, many=True)
+    serializer = RegistrationSerializer(users, many=True)
     return Response(serializer.data) 
     
     

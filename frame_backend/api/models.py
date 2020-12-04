@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
 # Django will create a table like so with each of the models 
 # CREATE TABLE exaple_table (
 #     "id" serial NOT NULL PRIMARY KEY,
@@ -17,16 +19,82 @@ from django.db import models
 
 #TODO: will need a reset password code table
 
-class Users(models.Model):
-    #id is auto generated
-    password_hash = models.CharField(max_length=60)
-    #auth_token = models.CharField(max_length=60)
-    email = models.CharField(unique=True, max_length=60)
-    first_name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=60)
+# class Users(models.Model):
+#     password_hash = models.CharField(max_length=60)
+#     #auth_token = models.CharField(max_length=60)
+#     email = models.CharField(unique=True, max_length=60)
+#     first_name = models.CharField(max_length=60)
+#     last_name = models.CharField(max_length=60)
 
-    # def __str__(self):
-    #     return self.id
+#     # def __str__(self):
+#     #     return self.id
+
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, username, password):
+        if not email:
+            return ValueError('users must have an email')
+        if not username:
+            return ValueError('users must have an username')
+        if not password:
+            return ValueError('users must have an password')
+
+        user = self.model(
+            email=self.normalize_email(email), # convert to lowercase
+            username = username,
+            password=password,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, username, password):
+        user = self.create_user(
+            email=self.normalize_email(email), # convert to lowercase
+            username=username,
+            password=password,
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+class Users(AbstractBaseUser):
+    # required fields
+    email        = models.EmailField(verbose_name='email', unique=True, max_length=60)
+    username     = models.CharField(max_length=60)
+    date_joined  = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+    last_login   = models.DateTimeField(verbose_name='last login', auto_now_add=True)
+    is_admin     = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_staff     = models.BooleanField(default=False)
+
+    # used to login
+    USERNAME_FIELD = 'email'
+    # requried when reg
+    REQUIRED_FIELDS = ['username',]
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.email
+
+    def has_module_perms(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_name(self, app_lable):
+        return True
+
+
+    
+    
+
 
 class AuthToken(models.Model):
     users_id = models.ForeignKey(Users, on_delete=models.CASCADE)

@@ -4,14 +4,18 @@ from .models import *
 import datetime
 
 
-class UsersSerializer(serializers.ModelSerializer):
+class RegistrationSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     class Meta:
         model = Users
-        fields = ['password_hash','email','first_name','last_name']
+        fields = ['email','first_name','last_name','password1','password2']
+        extra_kwargs = {
+            'pasword1' : {'write_only' : True}
+        }
     
-    # def __init__(self, date=datetime.datetime.now()):
-    #     pass
-
+    # def save(self):
+        
+    
 class GroupsSerializer(serializers.ModelSerializer):
     class Meta:    
         model = Groups
