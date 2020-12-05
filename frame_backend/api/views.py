@@ -1,7 +1,8 @@
 from django.shortcuts import render
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
+
 from .serializers import *
 from .models import *
 
@@ -40,13 +41,15 @@ def login(request):
     return Response()
 
 @api_view(['POST'])
-def user_create(request):
+def create_user(request):
     serializer = RegistrationSerializer(data=request.data)
+    data = {}
     if serializer.is_valid():
-        serializer.save()
-        return Response("ok-saved-user")
-    #return Response(serializer.errors)
-    return Response("errors")
+        user = serializer.save()
+        data['responce'] = 'created account with email: '+user.email+' and username: '+user.username
+    else:
+        data = serializer.errors
+    return Response(data)
 
 
 @api_view(['GET'])

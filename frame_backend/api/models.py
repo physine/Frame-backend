@@ -17,19 +17,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 #
 # id = models.AutoField(primary_key=True)
 
-#TODO: will need a reset password code table
-
-# class Users(models.Model):
-#     password_hash = models.CharField(max_length=60)
-#     #auth_token = models.CharField(max_length=60)
-#     email = models.CharField(unique=True, max_length=60)
-#     first_name = models.CharField(max_length=60)
-#     last_name = models.CharField(max_length=60)
-
-#     # def __str__(self):
-#     #     return self.id
-
-
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password):
@@ -90,11 +77,6 @@ class Users(AbstractBaseUser):
 
     def has_module_name(self, app_lable):
         return True
-
-
-    
-    
-
 
 class AuthToken(models.Model):
     users_id = models.ForeignKey(Users, on_delete=models.CASCADE)

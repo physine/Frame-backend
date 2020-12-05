@@ -13,7 +13,7 @@ urlpatterns = [
     # logged out
     path('password_reset', views.password_reset, name="password_reset"),
     path('login', views.login, name="login"),
-    path('user_create', views.user_create, name="user_create"),
+    path('create_user', views.create_user, name="create_user"),
 
     path('UserList', views.UserList, name="UserList"),
 

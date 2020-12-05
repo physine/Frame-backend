@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     # django rest
     'rest_framework',
-
+    # token auth
+    'rest_framework.authtoken',
     # models
     #'api',
 
