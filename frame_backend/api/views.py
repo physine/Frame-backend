@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 
 from .serializers import *
 from .models import *
@@ -28,17 +30,9 @@ def apiOverview(request):
 
 @api_view(['POST'])
 def password_reset(request):
-    # TODO: create a temp reset password code and email it to the user
-    # TODO: if the code is used sucessfully remove it from the db, if the expires also remove it
-    # TODO: from the db.  
-    return Response()
+    data = 'a password reset code has been sent to the email address: '+request['email']
+    return Response(data)
 
-@api_view(['POST'])
-def login(request):
-    # TODO: check if these exists a user with the given email, if so, check if the 
-    # TODO: password matches, if it does return a new auth token to the client.
-    # TODO: if any of these fail return 'failed to login' to the client.
-    return Response()
 
 @api_view(['POST'])
 def create_user(request):
@@ -47,26 +41,21 @@ def create_user(request):
     if serializer.is_valid():
         user = serializer.save()
         data['responce'] = 'created account with email: '+user.email+' and username: '+user.username
+        data['token'] = Token.objects.get(user=user).key
     else:
         data = serializer.errors
     return Response(data)
-
-
-@api_view(['GET'])
-def UserList(request):
-    users = Users.objects.all()
-    serializer = RegistrationSerializer(users, many=True)
-    return Response(serializer.data) 
     
     
-    # TODO: sanatise user input
-    # TODO: check if the email is already in the db, if it is retuen 'account accociated with this email'
-    # TODO: if not create a new account the the given details.
-
 # ===============================================
 #                 Logged In - Auth Required
 #------------------------------------------------
 
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def generic(request):
+    data = 'This is an Authenticated area'
+    return Response(data)
 
 
 

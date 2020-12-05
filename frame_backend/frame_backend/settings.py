@@ -42,9 +42,6 @@ INSTALLED_APPS = [
     'rest_framework',
     # token auth
     'rest_framework.authtoken',
-    # models
-    #'api',
-
     # app
     'api.apps.ApiConfig',
 ]
@@ -53,6 +50,9 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASS': [
         'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', 
     ]
 }
 

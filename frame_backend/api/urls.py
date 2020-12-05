@@ -4,6 +4,8 @@ from . import views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from rest_framework.authtoken.views import obtain_auth_token
+
 # TODO: will need to auth before using logged in routes
 
 urlpatterns = [
@@ -12,11 +14,13 @@ urlpatterns = [
     
     # logged out
     path('password_reset', views.password_reset, name="password_reset"),
-    path('login', views.login, name="login"),
+    path('login', obtain_auth_token, name="login"), # built in Django view
     path('create_user', views.create_user, name="create_user"),
 
-    path('UserList', views.UserList, name="UserList"),
+    #('UserList', views.UserList, name="UserList"),
 
     # logged in
+    path('generic', views.generic, name="generic"),
+
 
 ]
