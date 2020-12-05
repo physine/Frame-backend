@@ -51,7 +51,7 @@ def create_user(request):
 #                 Logged In - Auth Required
 #------------------------------------------------
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def generic(request):
     data = 'This is an Authenticated area'
