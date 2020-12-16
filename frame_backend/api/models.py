@@ -96,7 +96,7 @@ class UsersGroups(models.Model):
 
 class Images(models.Model):
     #id is auto generated
-    image_name = models.CharField(max_length=60)
+    image_location = models.ImageField(null=True, blank=True)
 
 class UserImages(models.Model):
     users_id = models.ForeignKey(Users, on_delete=models.CASCADE)

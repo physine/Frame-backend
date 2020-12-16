@@ -20,7 +20,7 @@ urlpatterns = [
     #('UserList', views.UserList, name="UserList"),
 
     # logged in
-    path('generic', views.generic, name="generic"),
+    path('upload_images', views.upload_images, name="upload_images"),
 
 
 ]

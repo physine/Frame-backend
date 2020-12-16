@@ -29,17 +29,17 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
     
-class GroupsSerializer(serializers.ModelSerializer):
-    class Meta:    
-        model = Groups
-        fields = ['users_id','group_name']
+# class GroupsSerializer(serializers.ModelSerializer):
+#     class Meta:    
+#         model = Groups
+#         fields = ['users_id','group_name']
 
-class ImagesSerializer(serializers.ModelSerializer):
-    class Meta:    
-        model = Images
-        fields = ['users_id','image_name']
+# class ImagesSerializer(serializers.ModelSerializer):
+#     class Meta:    
+#         model = Images
+#         fields = ['users_id','image_name']
 
-class FriendsSerializer(serializers.ModelSerializer):
-    class Meta:    
-        model = Images
-        fields = ['lookup_id','results_id']
+# class FriendsSerializer(serializers.ModelSerializer):
+#     class Meta:    
+#         model = Images
+#         fields = ['lookup_id','results_id']
